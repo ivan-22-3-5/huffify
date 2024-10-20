@@ -6,7 +6,7 @@ RSpec.describe Huff do
     expect(Huff::VERSION).not_to be nil
   end
 
-  describe 'create_occurrences_map' do
+  describe '#create_occurrences_map' do
     include Huff
     let(:occurrences_map) { create_occurrences_map(text) }
 
@@ -48,6 +48,55 @@ RSpec.describe Huff do
       it 'returns a hash with correct counts for special characters' do
         expect(occurrences_map).to eq({ '!' => 2, '@' => 2, '#' => 2, '$' => 2 })
       end
+    end
+  end
+
+  describe '#build_huffman_tree' do
+    include Huff
+    it 'builds a Huffman tree for a simple case' do
+      occurrences_map = { 'a' => 5, 'b' => 9, 'c' => 12, 'd' => 13, 'e' => 16, 'f' => 45 }
+      root = build_huffman_tree(occurrences_map)
+
+      expect(root.frequency).to eq(100)
+      expect(root.left.frequency).to eq(45)
+      expect(root.right.frequency).to eq(55)
+    end
+
+    it 'handles a case with a single character' do
+      occurrences_map = { 'x' => 10 }
+      root = build_huffman_tree(occurrences_map)
+
+      expect(root.char).to eq('x')
+      expect(root.frequency).to eq(10)
+      expect(root.left).to be_nil
+      expect(root.right).to be_nil
+    end
+
+    it 'handles a case with two characters' do
+      occurrences_map = { 'y' => 2, 'z' => 3 }
+      root = build_huffman_tree(occurrences_map)
+
+      expect(root.frequency).to eq(5)
+      expect(root.left.frequency).to eq(2)
+      expect(root.right.frequency).to eq(3)
+    end
+
+    it 'handles characters with equal frequency' do
+      occurrences_map = { 'a' => 3, 'b' => 3, 'c' => 3 }
+      root = build_huffman_tree(occurrences_map)
+
+      expect(root.frequency).to eq(9)
+      expect(root.left.frequency).to eq(3)
+      expect(root.right.frequency).to eq(6)
+    end
+
+    it 'correctly structures the tree' do
+      occurrences_map = { 'g' => 1, 'h' => 2, 'i' => 3 }
+      root = build_huffman_tree(occurrences_map)
+
+      expect(root.frequency).to eq(6)
+      expect(root.left.frequency).to eq(3)
+      expect(root.right.frequency).to eq(3)
     end
   end
 end

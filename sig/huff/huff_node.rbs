@@ -1,0 +1,12 @@
+module Huff
+  class HuffNode
+    @char: String
+    @frequency: Integer
+
+    attr_accessor char: String | nil
+    attr_accessor frequency: Integer
+    attr_accessor left: HuffNode | nil
+    attr_accessor right: HuffNode | nil
+
+  end
+end

@@ -2,12 +2,19 @@ PATH
   remote: .
   specs:
     huff (0.1.0)
+      pqueue (~> 2.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.5.1)
+    fiddle (1.1.2)
+    pqueue (2.1.0)
+    psych (5.1.2)
+      stringio
     rake (13.2.1)
+    rdoc (6.7.0)
+      psych (>= 4.0.0)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -21,13 +28,17 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
+    stringio (3.1.1)
 
 PLATFORMS
   x64-mingw-ucrt
 
 DEPENDENCIES
+  fiddle
   huff!
+  pqueue (~> 2.1)
   rake (~> 13.0)
+  rdoc
   rspec (~> 3.0)
 
 BUNDLED WITH

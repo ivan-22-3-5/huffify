@@ -1,12 +1,12 @@
 module Huff
   VERSION: String
 
-  def encode: (String text) -> String
+  def encode: (String text) -> Hash[Symbol, HuffNode | String]
   def decode: (String bits, HuffNode tree) -> String
 
   private
 
-  def build_huffman_tree: (Hash[String, Integer]) -> HuffNode
+  def build_huffman_tree: (String text) -> HuffNode
 
   def create_occurrences_map: (String text) -> Hash[String, Integer]
 

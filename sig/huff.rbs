@@ -1,6 +1,9 @@
 module Huff
   VERSION: String
 
+  def encode: (String text) -> String
+  def decode: (String bits, HuffNode tree) -> String
+
   private
 
   def build_huffman_tree: (Hash[String, Integer]) -> HuffNode

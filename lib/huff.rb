@@ -16,6 +16,25 @@ module Huff
     end
   end
 
+  def encode(text)
+    huffman_tree = build_huffman_tree(create_occurrences_map(text))
+    codes = get_char_codes(huffman_tree)
+    text.each_char.map { |char| codes[char] }.join
+  end
+
+  def decode(bits, tree)
+    text = ""
+    cur_node = tree
+    bits.each_char do |bit|
+      cur_node = bit == '0' ? cur_node.left : cur_node.right
+      if cur_node.char
+        text += cur_node.char
+        cur_node = tree
+      end
+    end
+    text
+  end
+
   private
 
   def create_occurrences_map(text)

@@ -33,4 +33,14 @@ module Huff
     end
     pq.pop
   end
+
+  def get_char_codes(node, code = '', codes = {})
+    if node.char
+      codes[node.char] = code
+    else
+      get_char_codes(node.left, code + '0', codes)
+      get_char_codes(node.right, code + '1', codes)
+    end
+    codes
+  end
 end

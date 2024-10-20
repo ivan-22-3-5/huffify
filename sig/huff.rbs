@@ -6,4 +6,6 @@ module Huff
   def build_huffman_tree: (Hash[String, Integer]) -> HuffNode
 
   def create_occurrences_map: (String text) -> Hash[String, Integer]
+
+  def get_char_codes: (HuffNode node, String code, Hash[String, String]) -> Hash[String, String]
 end

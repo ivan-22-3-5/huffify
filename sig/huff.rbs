@@ -1,3 +1,6 @@
 module Huff
   VERSION: String
+
+  private
+  def create_occurrences_map:(String text) -> Hash[String, Integer]
 end

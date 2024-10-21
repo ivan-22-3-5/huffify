@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'pqueue'
-require_relative "huff/version"
+require_relative "huffify/version"
 
-module Huff
+module Huffify
   class HuffNode
     attr_accessor :char, :frequency, :left, :right
 
@@ -14,13 +14,13 @@ module Huff
     end
   end
 
-  def encode(text)
+  def self.encode(text)
     huffman_tree = build_huffman_tree(text)
     codes = get_char_codes(huffman_tree)
     { encoded_text: text.each_char.map { |char| codes[char] }.join, huffman_tree: huffman_tree }
   end
 
-  def decode(bits, huffman_tree)
+  def self.decode(bits, huffman_tree)
     text = ""
     cur_node = huffman_tree
     bits.each_char do |bit|
@@ -33,15 +33,13 @@ module Huff
     text
   end
 
-  private
-
-  def create_occurrences_map(text)
+  private_class_method def self.create_occurrences_map(text)
     occurrences_map = Hash.new(0)
     text.each_char { |char| occurrences_map[char] += 1 }
     occurrences_map
   end
 
-  def build_huffman_tree(text)
+  private_class_method def self.build_huffman_tree(text)
     occurrences_map = create_occurrences_map(text)
     pq = PQueue.new { |a, b| a.frequency < b.frequency }
     occurrences_map.each { |char, count| pq.push(HuffNode.new(char, count)) }
@@ -52,7 +50,7 @@ module Huff
     pq.pop
   end
 
-  def get_char_codes(node, code = '', codes = {})
+  private_class_method def self.get_char_codes(node, code = '', codes = {})
     if node.char
       codes[node.char] = code
     else

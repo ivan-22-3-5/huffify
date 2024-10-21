@@ -1,13 +1,13 @@
 # frozen_string_literal: true
-require_relative '../lib/huff'
+require_relative '../lib/huffify'
 
-RSpec.describe Huff do
+RSpec.describe Huffify do
   it "has a version number" do
-    expect(Huff::VERSION).not_to be nil
+    expect(Huffify::VERSION).not_to be nil
   end
 
   describe '#create_occurrences_map' do
-    include Huff
+    include Huffify
     let(:occurrences_map) { create_occurrences_map(text) }
 
     context 'when the input string is empty' do
@@ -52,7 +52,7 @@ RSpec.describe Huff do
   end
 
   describe '#build_huffman_tree' do
-    include Huff
+    include Huffify
     it 'builds a Huffman tree for a simple case' do
       occurrences_map = { 'a' => 5, 'b' => 9, 'c' => 12, 'd' => 13, 'e' => 16, 'f' => 45 }
       root = build_huffman_tree(occurrences_map)

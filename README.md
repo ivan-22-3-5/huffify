@@ -1,5 +1,5 @@
-# Huff
-Huff is a Ruby gem that provides functionality to encode and decode text data using Huffman encoding, a lossless data compression algorithm. Huffman encoding efficiently compresses data by assigning shorter codes to more frequent symbols and longer codes to less frequent symbols.
+# Huffify
+Huffify is a Ruby gem that provides functionality to encode and decode text data using Huffman encoding, a lossless data compression algorithm. Huffman encoding efficiently compresses data by assigning shorter codes to more frequent symbols and longer codes to less frequent symbols.
 
 ## Installation
 

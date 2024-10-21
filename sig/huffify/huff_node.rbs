@@ -1,4 +1,4 @@
-module Huff
+module Huffify
   class HuffNode
     @char: String
     @frequency: Integer

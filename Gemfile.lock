@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    huff (0.1.0)
+    huffify (0.1.2)
       pqueue (~> 2.1.0)
 
 GEM
@@ -35,7 +35,7 @@ PLATFORMS
 
 DEPENDENCIES
   fiddle
-  huff!
+  huffify!
   pqueue (~> 2.1)
   rake (~> 13.0)
   rdoc

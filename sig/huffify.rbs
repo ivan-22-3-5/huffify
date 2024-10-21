@@ -1,0 +1,14 @@
+module Huffify
+  VERSION: String
+
+  def self.encode: (String text) -> Hash[Symbol, HuffNode | String]
+  def self.decode: (String bits, HuffNode tree) -> String
+
+  private
+
+  def self.build_huffman_tree: (String text) -> HuffNode
+
+  def self.create_occurrences_map: (String text) -> Hash[String, Integer]
+
+  def self.get_char_codes: (HuffNode node, String code, Hash[String, String]) -> Hash[String, String]
+end

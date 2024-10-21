@@ -6,7 +6,7 @@ Huff is a Ruby gem that provides functionality to encode and decode text data us
 To install the gem, add this line to your application's Gemfile:
 
 ```ruby
-gem 'huffman_encoder'
+gem 'huff'
 ```
 
 Then execute:
@@ -29,6 +29,13 @@ Here's how you can use the gem to encode and decode a string using Huffman encod
 
 ```ruby
 require 'huff'
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+result = encode(text)
+
+decoded_text = decode(result[:encoded_text], result[:huffman_tree])
+
+decoded_text == text  # true
 
 ```
 

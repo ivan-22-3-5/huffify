@@ -3,8 +3,6 @@ require 'pqueue'
 require_relative "huff/version"
 
 module Huff
-  class Error < StandardError; end
-
   class HuffNode
     attr_accessor :char, :frequency, :left, :right
 

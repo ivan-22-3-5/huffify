@@ -31,9 +31,9 @@ Here's how you can use the gem to encode and decode a string using Huffman encod
 require 'huffify'
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 
-result = encode(text)
+result = Huffify::encode(text)
 
-decoded_text = decode(result[:encoded_text], result[:huffman_tree])
+decoded_text = Huffify::decode(result[:encoded_text], result[:huffman_tree])
 
 decoded_text == text  # true
 

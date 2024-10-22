@@ -6,7 +6,7 @@ Huffify is a Ruby gem that provides functionality to encode and decode text data
 To install the gem, add this line to your application's Gemfile:
 
 ```ruby
-gem 'huff'
+gem 'huffify'
 ```
 
 Then execute:
@@ -18,7 +18,7 @@ bundle install
 Or install it yourself as:
 
 ```bash
-gem install huffman_encoder
+gem install huffify
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ gem install huffman_encoder
 Here's how you can use the gem to encode and decode a string using Huffman encoding:
 
 ```ruby
-require 'huff'
+require 'huffify'
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 
 result = encode(text)

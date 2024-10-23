@@ -7,8 +7,7 @@ RSpec.describe Huffify do
   end
 
   describe '#create_occurrences_map' do
-    include Huffify
-    let(:occurrences_map) { create_occurrences_map(text) }
+    let(:occurrences_map) { Huffify.send(:create_occurrences_map, text) }
 
     context 'when the input string is empty' do
       let(:text) { '' }
@@ -52,51 +51,100 @@ RSpec.describe Huffify do
   end
 
   describe '#build_huffman_tree' do
-    include Huffify
-    it 'builds a Huffman tree for a simple case' do
-      occurrences_map = { 'a' => 5, 'b' => 9, 'c' => 12, 'd' => 13, 'e' => 16, 'f' => 45 }
-      root = build_huffman_tree(occurrences_map)
-
-      expect(root.frequency).to eq(100)
-      expect(root.left.frequency).to eq(45)
-      expect(root.right.frequency).to eq(55)
+    it 'builds a tree for an empty string' do
+      result = Huffify.send(:build_huffman_tree, '')
+      expect(result).to be_nil
     end
 
-    it 'handles a case with a single character' do
-      occurrences_map = { 'x' => 10 }
-      root = build_huffman_tree(occurrences_map)
+    it 'builds a tree for a single character string' do
+      result = Huffify.send(:build_huffman_tree, 'aaaa')
 
-      expect(root.char).to eq('x')
-      expect(root.frequency).to eq(10)
-      expect(root.left).to be_nil
-      expect(root.right).to be_nil
+      expect(result.char).to eq('a')
+      expect(result.frequency).to eq(4)
+      expect(result.left).to be_nil
+      expect(result.right).to be_nil
     end
 
-    it 'handles a case with two characters' do
-      occurrences_map = { 'y' => 2, 'z' => 3 }
-      root = build_huffman_tree(occurrences_map)
+    it 'builds a correct tree for a string with two distinct characters' do
+      result = Huffify.send(:build_huffman_tree, 'aabb')
 
-      expect(root.frequency).to eq(5)
-      expect(root.left.frequency).to eq(2)
-      expect(root.right.frequency).to eq(3)
+      expect(result.frequency).to eq(4)
+      expect(result.left.char).to eq('a')
+      expect(result.left.frequency).to eq(2)
+      expect(result.right.char).to eq('b')
+      expect(result.right.frequency).to eq(2)
     end
 
-    it 'handles characters with equal frequency' do
-      occurrences_map = { 'a' => 3, 'b' => 3, 'c' => 3 }
-      root = build_huffman_tree(occurrences_map)
+    it 'builds a correct tree for a string with more than two distinct characters' do
+      result = Huffify.send(:build_huffman_tree, 'abc')
 
-      expect(root.frequency).to eq(9)
-      expect(root.left.frequency).to eq(3)
-      expect(root.right.frequency).to eq(6)
+      expect(result.frequency).to eq(3)
+      expect(result.left).to_not be_nil
+      expect(result.right).to_not be_nil
+
+      chars = [result.left.char, result.right.char].compact + [result.left.left&.char, result.left.right&.char, result.right.left&.char, result.right.right&.char].compact
+      expect(chars.sort).to eq(['a', 'b', 'c'])
     end
 
-    it 'correctly structures the tree' do
-      occurrences_map = { 'g' => 1, 'h' => 2, 'i' => 3 }
-      root = build_huffman_tree(occurrences_map)
+    it 'builds a correct tree for a complex string' do
+      result = Huffify.send(:build_huffman_tree, 'aaaabbcc')
 
-      expect(root.frequency).to eq(6)
-      expect(root.left.frequency).to eq(3)
-      expect(root.right.frequency).to eq(3)
+      expect(result.frequency).to eq(8)
+
+      expect(result.left.frequency).to eq(4)
+      expect(result.right.frequency).to eq(4)
+    end
+  end
+
+  describe '.encode' do
+    it 'encodes an empty string' do
+      result = Huffify.encode('')
+      expect(result[:encoded_text]).to eq('')
+      expect(result[:huffman_tree]).to be_nil
+    end
+
+    it 'encodes a string with a single character' do
+      result = Huffify.encode('aaaa')
+      expect(result[:encoded_text]).to eq('0000')
+      expect(result[:huffman_tree].char).to eq('a')
+      expect(result[:huffman_tree].frequency).to eq(4)
+    end
+
+    it 'encodes a string with two characters' do
+      result = Huffify.encode('aabb')
+
+      expect(result[:encoded_text]).to eq('0011')
+    end
+
+    it 'encodes a complex string' do
+      result = Huffify.encode('aaaabbcc')
+      expect(result[:encoded_text]).to eq("000010101111")
+    end
+  end
+
+  describe '.decode' do
+    it 'decodes an empty string' do
+      result = Huffify.encode('')
+      decoded_text = Huffify.decode(result[:encoded_text], result[:huffman_tree])
+      expect(decoded_text).to eq('')
+    end
+
+    it 'decodes a string with a single character' do
+      result = Huffify.encode('aaaa')
+      decoded_text = Huffify.decode(result[:encoded_text], result[:huffman_tree])
+      expect(decoded_text).to eq('aaaa')
+    end
+
+    it 'decodes a string with two characters' do
+      result = Huffify.encode('aabb')
+      decoded_text = Huffify.decode(result[:encoded_text], result[:huffman_tree])
+      expect(decoded_text).to eq('aabb')
+    end
+
+    it 'decodes a complex string' do
+      result = Huffify.encode('aaaabbcc')
+      decoded_text = Huffify.decode(result[:encoded_text], result[:huffman_tree])
+      expect(decoded_text).to eq('aaaabbcc')
     end
   end
 end

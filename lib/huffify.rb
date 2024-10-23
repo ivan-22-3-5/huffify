@@ -21,6 +21,9 @@ module Huffify
   end
 
   def self.decode(bits, huffman_tree)
+    return '' if huffman_tree.nil?
+    return huffman_tree.char * bits.length if huffman_tree.char
+
     text = ""
     cur_node = huffman_tree
     bits.each_char do |bit|
@@ -46,11 +49,13 @@ module Huffify
     until pq.size == 1
       first, second = pq.pop, pq.pop
       pq.push(HuffNode.new(nil, first.frequency + second.frequency, first, second))
-    end
+    end unless pq.empty?
     pq.pop
   end
 
   private_class_method def self.get_char_codes(node, code = '', codes = {})
+    return {} if node.nil?
+    return {node.char => '0'} if code.empty? and codes.empty? and node.char
     if node.char
       codes[node.char] = code
     else

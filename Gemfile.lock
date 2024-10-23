@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    huffify (0.1.2)
+    huffify (0.1.3)
       pqueue (~> 2.1.0)
 
 GEM
